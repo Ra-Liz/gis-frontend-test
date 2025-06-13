@@ -153,3 +153,32 @@ tileset.root.transform = Matrix4.multiply(
 ```
 
 ### glTF 模型的加载与控制
+
+1. 地形信息获取
+
+```tsx
+// 模型位置的地形高度
+const [sampled] = await sampleTerrainMostDetailed(
+  await createWorldTerrainAsync(), // terrainProvider
+  [Cartographic.fromDegrees(104.07, 30.67)]
+);
+console.log("test height: ", sampled.height);
+```
+
+2. 模型位置控制
+
+```tsx
+// 根据模型实际情况设置
+const position = Cartesian3.fromDegrees(104.07, 30.67, 458);
+const hpr = new HeadingPitchRoll(
+  0,
+  CesiumMath.toRadians(90),
+  CesiumMath.toRadians(-90)
+);
+// 经纬度转为地心坐标系
+const matrix = Transforms.headingPitchRollToFixedFrame(position, hpr);
+setModelMatrix(matrix);
+```
+
+### 三维流场可视化-风场
+
